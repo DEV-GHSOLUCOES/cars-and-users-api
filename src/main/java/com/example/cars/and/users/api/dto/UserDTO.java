@@ -2,33 +2,63 @@ package com.example.cars.and.users.api.dto;
 
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import com.example.cars.and.users.api.model.Car;
+import com.example.cars.and.users.api.model.User;
 
 public class UserDTO {
 
-	private Long id;
+	private String id;
 
+	
+	@NotNull(message = "Missing fields!")
+	@NotBlank(message = "Invalid fields!")
 	private String firstName;
 
+	@NotNull
 	private String lastName;
 
+	@NotNull
 	private String email;
 
+	@NotNull
 	private String birthday;
 
+	@NotNull
 	private String login;
 
+	@NotNull
 	private String password;
 
+	@NotNull
 	private String phone;
 
 	private List<Car> cars;
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
+	
+	public UserDTO() {
+		
+	}
 
-	public void setId(Long id) {
+	  public UserDTO(User user) {
+	        this.id = Long.toString(user.getId());
+	        this.firstName = user.getFirstName();
+	        this.lastName = user.getLastName();
+	        this.email = user.getEmail();
+	        this.birthday = user.getBirthday();
+	        this.login = user.getLogin();
+	        this.password = user.getPassword();
+	        this.phone = user.getPhone();
+	        this.cars = user.getCars();
+	    }
+
+
+	public void setId(String id) {
 		this.id = id;
 	}
 
