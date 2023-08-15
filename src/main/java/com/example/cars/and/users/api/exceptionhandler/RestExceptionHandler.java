@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.example.cars.and.users.api.exceptions.EmailAlreadyExistsException;
 import com.example.cars.and.users.api.exceptions.LoginAlreadyExistsException;
+import com.example.cars.and.users.api.exceptions.UserNotFoundException;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -59,6 +60,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	
 	
+	@ExceptionHandler({UserNotFoundException.class})
+	public ResponseEntity<Object> handleUserNotFoundException( UserNotFoundException ex, WebRequest request) {
+		String menssagemUsuario = messageSource.getMessage("user.notfound", null, LocaleContextHolder.getLocale());
+		String menssagemDesenvolvedor = ex.toString();
+		List<Erro> erros = Arrays.asList(new Erro(menssagemUsuario, menssagemDesenvolvedor));
+		
+		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+	}
+	
+		
 	private List<Erro> criarListaErros(BindingResult bindingResult) {
 
 		List<Erro> erros = new ArrayList<>();
