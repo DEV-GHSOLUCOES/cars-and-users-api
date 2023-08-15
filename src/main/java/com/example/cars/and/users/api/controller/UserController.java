@@ -1,6 +1,5 @@
 package com.example.cars.and.users.api.controller;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -11,9 +10,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cars.and.users.api.dto.UserDTO;
@@ -35,8 +34,8 @@ public class UserController {
 
     @PostMapping
 	public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
-		User usuarioSalvo = userService.createUser(userDTO);
-		UserDTO userResponseDTO = new UserDTO(usuarioSalvo);
+		User userSave = userService.createUser(userDTO);
+		UserDTO userResponseDTO = new UserDTO(userSave);
 		return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDTO);
 
 	}
@@ -57,4 +56,16 @@ public class UserController {
 	public void deleteUserById(@PathVariable Long id) {
     	userService.deleteById(id);
 	}
+    
+    @PutMapping("/{id}")
+	public ResponseEntity<UserDTO> updateUserById(@PathVariable Long id, @RequestBody @Valid UserDTO userDTO){
+		User userSave = userService.updateUserById(id, userDTO);
+		
+		UserDTO userResponseDTO = new UserDTO(userSave);
+		
+		  return ResponseEntity.ok(userResponseDTO);
+	}
+	
+    
+    
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -107,6 +108,29 @@ public class UserService {
 		
 		
 
+	}
+
+	
+	
+	public User updateUserById(Long id, UserDTO userDTO) throws EmailAlreadyExistsException, LoginAlreadyExistsException {
+
+		User userSave = this.getUserById(id);
+		
+		// Verifica se o email já existe
+		
+		if (userRepository.existsByEmail(userDTO.getEmail())) {
+			throw new EmailAlreadyExistsException();
+		}
+
+		// Verifica se o login já existe
+		
+		if (userRepository.existsByLogin(userDTO.getLogin())) {
+			throw new LoginAlreadyExistsException();
+		}
+
+		BeanUtils.copyProperties(userDTO, userSave, "id");
+
+		return userRepository.save(userSave);
 	}
 
 }

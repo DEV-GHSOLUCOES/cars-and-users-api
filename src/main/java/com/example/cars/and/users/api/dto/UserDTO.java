@@ -2,6 +2,7 @@ package com.example.cars.and.users.api.dto;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -12,27 +13,35 @@ public class UserDTO {
 
 	private String id;
 
-	
 	@NotNull(message = "Missing fields!")
 	@NotBlank(message = "Invalid fields!")
 	private String firstName;
 
-	@NotNull
+	@NotNull(message = "Missing fields!")
+	@NotBlank(message = "Invalid fields!")
+
 	private String lastName;
 
 	@NotNull
 	private String email;
 
-	@NotNull
+	@NotNull(message = "Missing fields!")
+	@NotBlank(message = "Invalid fields!")
+
 	private String birthday;
 
-	@NotNull
+	@NotNull(message = "Missing fields!")
+	@NotBlank(message = "Invalid fields!")
+
 	private String login;
 
-	@NotNull
+	@NotNull(message = "Missing fields!")
+	@NotBlank(message = "Invalid fields!")
+
 	private String password;
 
-	@NotNull
+	@NotNull(message = "Missing fields!")
+	@NotBlank(message = "Invalid fields!")
 	private String phone;
 
 	private List<Car> cars;
@@ -40,23 +49,22 @@ public class UserDTO {
 	public String getId() {
 		return id;
 	}
-	
+
 	public UserDTO() {
-		
+
 	}
 
-	  public UserDTO(User user) {
-	        this.id = Long.toString(user.getId());
-	        this.firstName = user.getFirstName();
-	        this.lastName = user.getLastName();
-	        this.email = user.getEmail();
-	        this.birthday = user.getBirthday();
-	        this.login = user.getLogin();
-	        this.password = user.getPassword();
-	        this.phone = user.getPhone();
-	        this.cars = user.getCars();
-	    }
-
+	public UserDTO(User user) {
+		this.id = Long.toString(user.getId());
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
+		this.email = user.getEmail();
+		this.birthday = user.getBirthday();
+		this.login = user.getLogin();
+		this.password = user.getPassword();
+		this.phone = user.getPhone();
+		this.cars = user.getCars();
+	}
 
 	public void setId(String id) {
 		this.id = id;
@@ -125,6 +133,10 @@ public class UserDTO {
 	public void setCars(List<Car> cars) {
 		this.cars = cars;
 	}
-	
-	
+
+	public UserDTO updateUserById(Long id2, @Valid UserDTO userDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
