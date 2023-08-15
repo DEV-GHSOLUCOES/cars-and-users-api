@@ -5,29 +5,29 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.cars.and.users.api.dto.UserDTO;
 import com.example.cars.and.users.api.exceptions.EmailAlreadyExistsException;
 import com.example.cars.and.users.api.exceptions.LoginAlreadyExistsException;
 import com.example.cars.and.users.api.exceptions.UserNotFoundException;
+import com.example.cars.and.users.api.model.Car;
 import com.example.cars.and.users.api.model.User;
+import com.example.cars.and.users.api.repository.CarRepository;
 import com.example.cars.and.users.api.repository.UserRepository;
 
 @Service
 public class UserService {
 
 	@Autowired
-	private final UserRepository userRepository;
+	private UserRepository userRepository;
+
+	@Autowired
+	private CarRepository carRepository;
 
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
-
-	@Autowired
-	private MessageSource messageSource;
 
 	public List<UserDTO> getAllUsers() {
 		List<User> users = userRepository.findAll();
@@ -76,16 +76,37 @@ public class UserService {
 	}
 
 	public User getUserById(Long id) throws UserNotFoundException {
-		
-		 Optional<User> user = userRepository.findById(id);
-	        
-	       if (user.isEmpty()) {
-			
-	    	    throw new  UserNotFoundException();
-	    	   
+
+		Optional<User> user = userRepository.findById(id);
+
+		if (user.isEmpty()) {
+
+			throw new UserNotFoundException();
+
 		}
-	       
-	       return user.get();
+
+		return user.get();
+	}
+
+	public void deleteById(Long id) throws UserNotFoundException {
+		Optional<User> user  =  this.userRepository.findById(id);
+		if (user.isPresent()) {
+			
+			 User userOptional = user.get();
+	            List<Car> cars = userOptional.getCars();
+	            
+	            // Delete cars associated with the user
+	            carRepository.deleteAll(cars);
+	            
+	            // Delete the user
+	            userRepository.deleteById(id);
+		}
+		else {
+			throw new UserNotFoundException();
+		}
+		
+		
+
 	}
 
 }

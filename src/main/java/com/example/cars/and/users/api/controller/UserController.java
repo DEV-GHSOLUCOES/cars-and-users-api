@@ -7,11 +7,13 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cars.and.users.api.dto.UserDTO;
@@ -48,7 +50,11 @@ public class UserController {
 		
 		return  ResponseEntity.ok(userDTO);
 		
-		//return null;
 
+	}
+    
+    @DeleteMapping("/{id}")
+	public void deleteUserById(@PathVariable Long id) {
+    	userService.deleteById(id);
 	}
 }
