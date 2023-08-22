@@ -42,17 +42,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({EmailAlreadyExistsException.class})
 	public ResponseEntity<Object> handleEmailAlreadyExistsException( EmailAlreadyExistsException ex, WebRequest request) {
 		String menssagemUsuario = messageSource.getMessage("email.exists", null, LocaleContextHolder.getLocale());
-		String menssagemDesenvolvedor = ex.toString();
+		String menssagemDesenvolvedor = HttpStatus.BAD_REQUEST.toString();
 		List<Erro> erros = Arrays.asList(new Erro(menssagemUsuario, menssagemDesenvolvedor));
 		
 		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+		
+		
+		
 	}	
 	
 	
 	@ExceptionHandler({LoginAlreadyExistsException.class})
 	public ResponseEntity<Object> handleLoginAlreadyExistsException( LoginAlreadyExistsException ex, WebRequest request) {
 		String menssagemUsuario = messageSource.getMessage("login.exists", null, LocaleContextHolder.getLocale());
-		String menssagemDesenvolvedor = ex.toString();
+		String menssagemDesenvolvedor = HttpStatus.BAD_REQUEST.toString();
 		List<Erro> erros = Arrays.asList(new Erro(menssagemUsuario, menssagemDesenvolvedor));
 		
 		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
@@ -63,7 +66,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({UserNotFoundException.class})
 	public ResponseEntity<Object> handleUserNotFoundException( UserNotFoundException ex, WebRequest request) {
 		String menssagemUsuario = messageSource.getMessage("user.notfound", null, LocaleContextHolder.getLocale());
-		String menssagemDesenvolvedor = ex.toString();
+		String menssagemDesenvolvedor = HttpStatus.NOT_FOUND.toString();
 		List<Erro> erros = Arrays.asList(new Erro(menssagemUsuario, menssagemDesenvolvedor));
 		
 		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
@@ -74,9 +77,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 		List<Erro> erros = new ArrayList<>();
 		for (FieldError fieldError : bindingResult.getFieldErrors()) {
-			String menssagemUsuario = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
-			String menssagemDesenvolvedor = fieldError.toString();
-			erros.add(new Erro(menssagemUsuario, menssagemDesenvolvedor));
+			String message = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
+			String errorCode = fieldError.toString();
+			erros.add(new Erro(message, errorCode));
 
 		}
 
@@ -85,31 +88,32 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	public static class Erro {
 
-		private String menssagemUsuario;
-		private String menssagemDesenvolvedor;
+		private String message;
+		private String errorCode;
 
-		public Erro(String menssagemUsuario, String menssagemDesenvolvedor) {
+		public Erro(String message, String errorCode) {
 
-			this.menssagemUsuario = menssagemUsuario;
-			this.menssagemDesenvolvedor = menssagemDesenvolvedor;
+			this.message = message;
+			this.errorCode = errorCode;
 		}
 
-		public String getMenssagemUsuario() {
-			return menssagemUsuario;
+		public String getMessage() {
+			return message;
 		}
 
-		public void setMenssagemUsuario(String menssagemUsuario) {
-			this.menssagemUsuario = menssagemUsuario;
+		public void setMessage(String message) {
+			this.message = message;
 		}
 
-		public String getMenssagemDesenvolvedor() {
-			return menssagemDesenvolvedor;
+		public String getErrorCode() {
+			return errorCode;
 		}
 
-		public void setMenssagemDesenvolvedor(String menssagemDesenvolvedor) {
-			this.menssagemDesenvolvedor = menssagemDesenvolvedor;
+		public void setErrorCode(String errorCode) {
+			this.errorCode = errorCode;
 		}
 
+		
 	}
 
 }

@@ -1,11 +1,28 @@
 package com.example.cars.and.users.api.dto;
 
+import com.example.cars.and.users.api.model.Car;
+
 public class CarDTO {
     private String id;
     private String year;
     private String licensePlate;
     private String model;
     private String color;
+    
+    
+    public CarDTO() {
+		
+	}
+    
+    public CarDTO(Car car) {
+    	this.id = Long.toString(car.getId());
+		this.year = Integer.toString(car.getYear());
+		this.licensePlate = car.getLicensePlate();
+		this.model = car.getModel();
+		this.color = car.getColor();
+    }
+    
+	
 	public String getId() {
 		return id;
 	}
