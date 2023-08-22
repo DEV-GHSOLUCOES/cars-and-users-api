@@ -19,14 +19,29 @@ Como um usuário, eu quero poder remover um usuário pelo id na API.
 História de Usuário 5 - Atualizar um usuário pelo id:
 Como um usuário, eu quero poder atualizar um usuário pelo id na API.
 
-Criar um endpoint GET /carros que retorne uma lista de carros disponíveis.
-Cada carro na lista deve conter informações como ano, placa, modelo e cor.
-   
-3. Como um usuário autenticado, quero poder adicionar, visualizar, atualizar e excluir informações sobre meus carros, incluindo ano de fabricação, placa, modelo e cor.
+História de Usuário 6 - Autenticacao  do Usuario na api:
+Como um usuário, eu quero poder me autenticar com login e password na API e devo ter como retorno um  token
+de acesso da API (JWT) com as informações do usuário logado.
 
-4. Como um usuário autenticado, quero poder listar todos os carros registrados na plataforma.
+Historia de Usuario 7 - Listagem dos carros:
+Como usuario , eu quero poder obter  uma lista de todos os carros do usuario logado
 
-5. Como um usuário autenticado, desejo associar um ou mais carros à minha conta, para que eu possa gerenciá-los de forma conveniente.
+Historia de Usuario 8 -  Cadastrar um novo carro para o usuario logado:
+Como Usuario, eu quero poder cadastrar um novo carro para o usuario logado.
+
+Historia de Usuario 9 -  Buscar um carro do usuario logado pelo id:
+Como Usuario, eu quero poder buscar um carro do usuario logado pelo id.
+
+Historia de Usuario 10 - Remover um carro do usuário logado pelo id:
+Como Usuario, eu quero poder remover um carro do usuario logado pelo id.
+
+Historia de Usuario 11 - Atualizar um carro do usuário logado pelo id:
+Como Usuario, eu quero poder atualizar um carro do usuario logado pelo id.
+
+Historia de Usuario 12 - Retornar as informações do usuário logado:
+Como Usuario, eu quero retornar as informações do usuário logado (firstName, lastName, email, birthday, login,
+phone, cars) + createdAt (data da criação do usuário) + lastLogin (data da última vez
+que o usuário realizou login).
 
 
 ## Solução
