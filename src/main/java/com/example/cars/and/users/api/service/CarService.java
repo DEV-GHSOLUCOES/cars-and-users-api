@@ -4,30 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.cars.and.users.api.dto.CarDTO;
 import com.example.cars.and.users.api.exceptions.LicensePlateAlreadyExistsExeception;
-import com.example.cars.and.users.api.exceptions.UserNotFoundException;
 import com.example.cars.and.users.api.model.Car;
 import com.example.cars.and.users.api.model.User;
 import com.example.cars.and.users.api.repository.CarRepository;
+import com.example.cars.and.users.api.repository.UserRepository;
 
 @Service
 public class CarService {
 	
 	@Autowired
-    private final CarRepository carRepository;
+    private  CarRepository carRepository;
+	
+	@Autowired
+	private  UserRepository userRepository;
 
-    
-    public CarService(CarRepository carRepository) {
-        this.carRepository = carRepository;
-    }
-
-    
+ 
     public List<CarDTO> getAllCars() {
     	 List<Car> listCars =  carRepository.findAll();
     	 List<CarDTO> listCarsDTO =  new  ArrayList<>();
@@ -76,6 +72,23 @@ public class CarService {
 		Optional<Car> car = carRepository.findById(id);
 
 		return car.get();
+
+	}
+
+	
+
+    public boolean canDeleteCar(Long carId) {
+        Car car = getCarById(carId);
+        User user = car.getUsuario();
+
+        return user != null ? true : false; 
+    }
+
+	public void deleteById(Long id) {
+		if (canDeleteCar(id)) {
+			throw new IllegalStateException();
+		}
+		carRepository.deleteById(id);
 
 	}
 

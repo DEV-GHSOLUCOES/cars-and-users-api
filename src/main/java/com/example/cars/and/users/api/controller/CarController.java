@@ -47,7 +47,6 @@ public class CarController {
 
 	}
 
-	
 	@GetMapping("/{id}")
 	public ResponseEntity<CarDTO> getCarById(@PathVariable Long id) {
 
@@ -58,10 +57,12 @@ public class CarController {
 
 	}
 
+	@DeleteMapping("/{id}")
+	public void deleteCarrById(@PathVariable Long id) {
+		carService.deleteById(id);
+	}
+
 	/*
-	 * @DeleteMapping("/{id}") public void deleteUserById(@PathVariable Long id) {
-	 * userService.deleteById(id); }
-	 * 
 	 * @PutMapping("/{id}") public ResponseEntity<UserDTO>
 	 * updateUserById(@PathVariable Long id, @RequestBody @Valid UserDTO userDTO) {
 	 * User userSave = userService.updateUserById(id, userDTO);

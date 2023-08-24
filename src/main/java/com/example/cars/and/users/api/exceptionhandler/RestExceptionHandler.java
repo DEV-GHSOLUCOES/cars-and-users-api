@@ -106,7 +106,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}	
 	
-	
+		
+	@ExceptionHandler({IllegalStateException.class})
+	public ResponseEntity<Object> handleIllegalStateException( IllegalStateException ex, WebRequest request) {
+		String menssagemUsuario = messageSource.getMessage("conflict", null, LocaleContextHolder.getLocale());
+		String menssagemDesenvolvedor = HttpStatus.CONFLICT.toString();
+		List<Erro> erros = Arrays.asList(new Erro(menssagemUsuario, menssagemDesenvolvedor));
+		
+		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.CONFLICT, request);
+	}
 	
 	@ExceptionHandler({UserNotFoundException.class})
 	public ResponseEntity<Object> handleUserNotFoundException( UserNotFoundException ex, WebRequest request) {
