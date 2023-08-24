@@ -47,16 +47,18 @@ public class CarController {
 
 	}
 
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<CarDTO> getCarById(@PathVariable Long id) {
+
+		Car car = carService.getCarById(id);
+		CarDTO carDTO = new CarDTO(car);
+
+		return ResponseEntity.ok(carDTO);
+
+	}
+
 	/*
-	 * @GetMapping("/{id}") public ResponseEntity<UserDTO> getUserById(@PathVariable
-	 * Long id) {
-	 * 
-	 * User user = userService.getUserById(id); UserDTO userDTO = new UserDTO(user);
-	 * 
-	 * return ResponseEntity.ok(userDTO);
-	 * 
-	 * }
-	 * 
 	 * @DeleteMapping("/{id}") public void deleteUserById(@PathVariable Long id) {
 	 * userService.deleteById(id); }
 	 * 

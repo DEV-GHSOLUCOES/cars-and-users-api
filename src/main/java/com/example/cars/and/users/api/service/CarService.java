@@ -2,6 +2,7 @@ package com.example.cars.and.users.api.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.cars.and.users.api.dto.CarDTO;
 import com.example.cars.and.users.api.exceptions.LicensePlateAlreadyExistsExeception;
+import com.example.cars.and.users.api.exceptions.UserNotFoundException;
 import com.example.cars.and.users.api.model.Car;
+import com.example.cars.and.users.api.model.User;
 import com.example.cars.and.users.api.repository.CarRepository;
 
 @Service
@@ -67,5 +70,13 @@ public class CarService {
 		}
 		return this.carRepository.save(carModel);
 	}
-    
+
+	public Car getCarById(Long id) {
+
+		Optional<Car> car = carRepository.findById(id);
+
+		return car.get();
+
+	}
+
 }

@@ -3,6 +3,7 @@ package com.example.cars.and.users.api.exceptionhandler;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -82,6 +83,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		
 	}
+	
+	
+	
+	
+	
+	@ExceptionHandler({NoSuchElementException.class})
+	public ResponseEntity<Object> handleNoSuchElementException( NoSuchElementException ex, WebRequest request) {
+		String menssagemUsuario = messageSource.getMessage("car.notfound", null, LocaleContextHolder.getLocale());
+		String menssagemDesenvolvedor = HttpStatus.INTERNAL_SERVER_ERROR.toString();
+		List<Erro> erros = Arrays.asList(new Erro(menssagemUsuario, menssagemDesenvolvedor));
+		
+		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+	}	
 	
 	@ExceptionHandler({LoginAlreadyExistsException.class})
 	public ResponseEntity<Object> handleLoginAlreadyExistsException( LoginAlreadyExistsException ex, WebRequest request) {
