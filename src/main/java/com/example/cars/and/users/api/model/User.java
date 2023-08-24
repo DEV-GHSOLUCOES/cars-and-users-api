@@ -1,6 +1,5 @@
 package com.example.cars.and.users.api.model;
 
-
 import java.util.Collection;
 import java.util.List;
 
@@ -24,52 +23,39 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class User implements UserDetails {
-	
-    /**
+
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    
-    private String firstName;
-    
-    
-    private String lastName;
-    
-    
-    private String email;
-    
-    
-    private String birthday;
-    
-    
-    private String login;
-    
-    
-    private String password;
-    
-    
-    private String phone;
-    
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles", uniqueConstraints = @UniqueConstraint(
-    		columnNames = {"user_id", "role_id"}, name = "unique_role_user"),
-    joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", table = "user", foreignKey = @ForeignKey(name =  "user_fk", value = ConstraintMode.CONSTRAINT)),
-    inverseJoinColumns = @JoinColumn(name =  "role_id", referencedColumnName = "id", table = "role", unique = false, updatable = false,
-    foreignKey = @ForeignKey  (name = "role_fk", value = ConstraintMode.CONSTRAINT ) ) )
-    
-   
-    private List<Role> roles;
-    
-    
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<Car> cars;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	private String firstName;
+
+	private String lastName;
+
+	private String email;
+
+	private String birthday;
+
+	private String login;
+
+	private String password;
+
+	private String phone;
+
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "user_roles", uniqueConstraints = @UniqueConstraint(columnNames = { "user_id",
+			"role_id" }, name = "unique_role_user"), joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", table = "user", foreignKey = @ForeignKey(name = "user_fk", value = ConstraintMode.CONSTRAINT)), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", table = "role", unique = false, updatable = false, foreignKey = @ForeignKey(name = "role_fk", value = ConstraintMode.CONSTRAINT)))
+
+	private List<Role> roles;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "user")
+	private List<Car> cars;
 
 	public Long getId() {
 		return id;
@@ -143,9 +129,10 @@ public class User implements UserDetails {
 		this.cars = cars;
 	}
 
+	@JsonIgnore
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
+
 		return roles;
 	}
 
@@ -179,6 +166,4 @@ public class User implements UserDetails {
 		return true;
 	}
 
-  
-    
 }

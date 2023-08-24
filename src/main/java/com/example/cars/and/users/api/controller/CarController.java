@@ -62,14 +62,14 @@ public class CarController {
 		carService.deleteById(id);
 	}
 
-	/*
-	 * @PutMapping("/{id}") public ResponseEntity<UserDTO>
-	 * updateUserById(@PathVariable Long id, @RequestBody @Valid UserDTO userDTO) {
-	 * User userSave = userService.updateUserById(id, userDTO);
-	 * 
-	 * UserDTO userResponseDTO = new UserDTO(userSave);
-	 * 
-	 * return ResponseEntity.ok(userResponseDTO); }
-	 */
+	@PutMapping("/{id}")
+	public ResponseEntity<CarDTO> updateCarById(@PathVariable Long id, @RequestBody @Valid CarDTO carDTO) {
+		Car carSave = carService.updateCarById(id, carDTO);
+
+		CarDTO carResponseDTO = new CarDTO(carSave);
+
+		return ResponseEntity.ok(carResponseDTO);
+	}
+	 
 
 }
