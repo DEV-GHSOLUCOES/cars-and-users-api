@@ -10,6 +10,9 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,8 +22,11 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.example.cars.and.users.api.exceptions.EmailAlreadyExistsException;
+import com.example.cars.and.users.api.exceptions.LicensePlateAlreadyExistsExeception;
 import com.example.cars.and.users.api.exceptions.LoginAlreadyExistsException;
 import com.example.cars.and.users.api.exceptions.UserNotFoundException;
+
+import io.jsonwebtoken.security.SignatureException;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -52,6 +58,31 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	}	
 	
 	
+	
+	
+	@ExceptionHandler({LicensePlateAlreadyExistsExeception.class})
+	public ResponseEntity<Object> handleLicensePlateAlreadyExistsExeception( LicensePlateAlreadyExistsExeception ex, WebRequest request) {
+		String menssagemUsuario = messageSource.getMessage("license.exists", null, LocaleContextHolder.getLocale());
+		String menssagemDesenvolvedor = HttpStatus.BAD_REQUEST.toString();
+		List<Erro> erros = Arrays.asList(new Erro(menssagemUsuario, menssagemDesenvolvedor));
+		
+		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+		
+	}	
+	
+	
+	@ExceptionHandler({SignatureException.class})
+	public ResponseEntity<Object> handleSignatureException( SignatureException ex, WebRequest request) {
+		String menssagemUsuario = messageSource.getMessage("unauthorized", null, LocaleContextHolder.getLocale());
+		String menssagemDesenvolvedor = HttpStatus.UNAUTHORIZED.toString();
+		List<Erro> erros = Arrays.asList(new Erro(menssagemUsuario, menssagemDesenvolvedor));
+		
+		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
+		
+		
+		
+	}
+	
 	@ExceptionHandler({LoginAlreadyExistsException.class})
 	public ResponseEntity<Object> handleLoginAlreadyExistsException( LoginAlreadyExistsException ex, WebRequest request) {
 		String menssagemUsuario = messageSource.getMessage("login.exists", null, LocaleContextHolder.getLocale());
@@ -71,6 +102,39 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 	}
+	
+	
+	@ExceptionHandler({InternalAuthenticationServiceException.class})
+	public ResponseEntity<Object> handleInternalAuthenticationServiceException( InternalAuthenticationServiceException ex, WebRequest request) {
+		String menssagemUsuario = messageSource.getMessage("login.invalid", null, LocaleContextHolder.getLocale());
+		String menssagemDesenvolvedor = HttpStatus.UNAUTHORIZED.toString();
+		List<Erro> erros = Arrays.asList(new Erro(menssagemUsuario, menssagemDesenvolvedor));
+		
+		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
+	}
+	
+	
+	 @ExceptionHandler(AuthenticationException.class)
+	    public ResponseEntity<Object> handleAuthenticationException(AuthenticationException ex, WebRequest request) {
+		 String menssagemUsuario = messageSource.getMessage("unauthorized", null, LocaleContextHolder.getLocale());
+			String menssagemDesenvolvedor = HttpStatus.UNAUTHORIZED.toString();
+			List<Erro> erros = Arrays.asList(new Erro(menssagemUsuario, menssagemDesenvolvedor));
+			
+			return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
+	    }
+
+	    @ExceptionHandler(AccessDeniedException.class)
+	    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
+	    	
+	    	 String menssagemUsuario = messageSource.getMessage("access.denied", null, LocaleContextHolder.getLocale());
+				String menssagemDesenvolvedor = HttpStatus.FORBIDDEN.toString();
+				List<Erro> erros = Arrays.asList(new Erro(menssagemUsuario, menssagemDesenvolvedor));
+				
+				return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+	    	
+	    	
+	        
+	    }
 	
 		
 	private List<Erro> criarListaErros(BindingResult bindingResult) {

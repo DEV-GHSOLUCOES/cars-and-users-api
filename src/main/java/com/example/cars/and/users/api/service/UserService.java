@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.cars.and.users.api.dto.UserDTO;
@@ -54,10 +55,15 @@ public class UserService {
 
 	public User createUser(UserDTO userDTO) throws EmailAlreadyExistsException, LoginAlreadyExistsException {
 		User userModel = new User();
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		if (userDTO != null) {		
 		userModel.setFirstName(userDTO.getFirstName());
 		userModel.setLastName(userDTO.getLastName());
 		userModel.setBirthday((userDTO.getBirthday()));
+		
+		//userModel.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		userModel.setPassword(userDTO.getPassword());
+		
 		userModel.setPhone(userDTO.getPhone());
 		userModel.setCars(userDTO.getCars());
 
@@ -73,6 +79,8 @@ public class UserService {
 			throw new LoginAlreadyExistsException();
 		}
 
+	}
+		
 		return this.userRepository.save(userModel);
 	}
 

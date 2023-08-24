@@ -1,6 +1,6 @@
 package com.example.cars.and.users.api.security;
 import io.jsonwebtoken.security.Keys;
-
+import io.jsonwebtoken.security.SignatureException;
 
 import java.util.Date;
 
@@ -14,8 +14,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.example.cars.and.users.api.ApplicationContextLoad;
+import com.example.cars.and.users.api.model.User;
 import com.example.cars.and.users.api.repository.UserRepository;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.IOException;
@@ -25,8 +28,9 @@ import io.jsonwebtoken.io.IOException;
 public class JwtTokenAutenticacaoService {
 	
 	
-	@Autowired 
-	private UserRepository userRepository;
+	/*
+	 * @Autowired //private UserRepository userRepository;
+	 */	
 	
 	/*Tempo de validade do token 2 dias*/
 	private static final long EXPIRATION_TIME = 172800000;
@@ -66,24 +70,33 @@ public class JwtTokenAutenticacaoService {
 		
 		/* Pega o token enviado no cabeçalho http */
 		String token = request.getHeader(HEADER_STRING);
-		
-		if (token != null) {
-			
-			String user =  Jwts.parser().setSigningKey(SECRET_KEY)
-					  					.parseClaimsJws(token.replace(TOKEN_PREFIX, ""))	
-					  					.getBody().getSubject();
-			if (user != null) {
-				com.example.cars.and.users.api.model.User usuario = userRepository.findByUserLogin(user);
-				
-				if (usuario !=  null) {
-					
-					return new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getPassword());
-				}
-			}
-			
-		}
-		
-		return null;
 
+	    if (token != null) {
+	        try {
+	            Claims claims = Jwts.parser()
+	                    .setSigningKey(SECRET_KEY)
+	                    .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+	                    .getBody();
+
+	            String user = claims.getSubject();
+	            if (user != null) {
+	                User usuario = ApplicationContextLoad.getApplicationContext()
+	                        .getBean(UserRepository.class)
+	                        .findByUserLogin(user);
+
+	                if (usuario != null) {
+	                    return new UsernamePasswordAuthenticationToken(
+	                            usuario.getLogin(),
+	                            usuario.getPassword(),
+	                            usuario.getAuthorities()
+	                    );
+	                }
+	            }
+	        } catch (SignatureException ex) {
+	            throw new SignatureException("Unauthorized");
+	        }
+	    }
+
+	    return null;
 	}
 }

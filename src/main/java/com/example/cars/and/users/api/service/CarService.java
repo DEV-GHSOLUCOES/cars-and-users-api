@@ -3,10 +3,13 @@ package com.example.cars.and.users.api.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.cars.and.users.api.dto.CarDTO;
+import com.example.cars.and.users.api.exceptions.LicensePlateAlreadyExistsExeception;
 import com.example.cars.and.users.api.model.Car;
 import com.example.cars.and.users.api.repository.CarRepository;
 
@@ -44,6 +47,25 @@ public class CarService {
     	
     	
 		
+	}
+
+
+	public Car createCar(CarDTO carDTO) throws LicensePlateAlreadyExistsExeception {
+		Car carModel = new Car();
+		if (carDTO != null) {
+			carModel.setColor(carDTO.getColor());
+			carModel.setLicensePlate(carDTO.getLicensePlate());
+			
+			// Verifica se a placa  já existe
+			if (this.carRepository.existsByLicensePlate(carModel.getLicensePlate())) {
+				throw  new LicensePlateAlreadyExistsExeception();
+			}
+			
+			carModel.setModel(carDTO.getModel());
+			carModel.setUsuario(carDTO.getUser());
+			carModel.setYear(Integer.parseInt(carDTO.getYear()));
+		}
+		return this.carRepository.save(carModel);
 	}
     
 }
