@@ -19,6 +19,7 @@ import javax.persistence.UniqueConstraint;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.example.cars.and.users.api.dto.UserDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -56,6 +57,14 @@ public class User implements UserDetails {
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<Car> cars;
+
+	public User(UserDTO userDTO) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public Long getId() {
 		return id;

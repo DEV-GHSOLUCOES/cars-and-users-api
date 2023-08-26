@@ -55,31 +55,7 @@ public class UserService {
 
 	public User createUser(UserDTO userDTO) throws EmailAlreadyExistsException, LoginAlreadyExistsException {
 		User userModel = new User();
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		if (userDTO != null) {		
-		userModel.setFirstName(userDTO.getFirstName());
-		userModel.setLastName(userDTO.getLastName());
-		userModel.setBirthday((userDTO.getBirthday()));
-		
-		//userModel.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-		userModel.setPassword(userDTO.getPassword());
-		
-		userModel.setPhone(userDTO.getPhone());
-		userModel.setCars(userDTO.getCars());
-
-		// Verifica se o email já existe
-		userModel.setEmail(userDTO.getEmail());
-		if (userRepository.existsByEmail(userDTO.getEmail())) {
-			throw new EmailAlreadyExistsException();
-		}
-
-		// Verifica se o login já existe
-		userModel.setLogin(userDTO.getLogin());
-		if (userRepository.existsByLogin(userDTO.getLogin())) {
-			throw new LoginAlreadyExistsException();
-		}
-
-	}
+		userModel = this.userDtoParseUserModel(userDTO);
 		
 		return this.userRepository.save(userModel);
 	}
@@ -139,6 +115,38 @@ public class UserService {
 		BeanUtils.copyProperties(userDTO, userSave, "id");
 
 		return userRepository.save(userSave);
+	}
+	
+	
+	public User userDtoParseUserModel(UserDTO userDTO) throws EmailAlreadyExistsException, LoginAlreadyExistsException {
+		User userModel = new User();
+		
+		if (userDTO != null) {		
+		userModel.setFirstName(userDTO.getFirstName());
+		userModel.setLastName(userDTO.getLastName());
+		userModel.setBirthday((userDTO.getBirthday()));
+		
+		//userModel.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		userModel.setPassword(userDTO.getPassword());
+		
+		userModel.setPhone(userDTO.getPhone());
+		userModel.setCars(userDTO.getCars());
+
+		// Verifica se o email já existe
+		userModel.setEmail(userDTO.getEmail());
+		if (userRepository.existsByEmail(userDTO.getEmail())) {
+			throw new EmailAlreadyExistsException();
+		}
+
+		// Verifica se o login já existe
+		userModel.setLogin(userDTO.getLogin());
+		if (userRepository.existsByLogin(userDTO.getLogin())) {
+			throw new LoginAlreadyExistsException();
+		}
+
+	}
+		
+		return userModel;
 	}
 
 }

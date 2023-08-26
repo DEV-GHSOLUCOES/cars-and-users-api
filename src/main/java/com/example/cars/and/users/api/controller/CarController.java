@@ -19,57 +19,59 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cars.and.users.api.dto.CarDTO;
-import com.example.cars.and.users.api.dto.UserDTO;
 import com.example.cars.and.users.api.model.Car;
-import com.example.cars.and.users.api.model.User;
 import com.example.cars.and.users.api.service.CarService;
 
 import io.jsonwebtoken.security.SignatureException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("api/cars")
+@Api(value = "Car Controller")
 public class CarController {
 
-	@Autowired
-	private CarService carService;
+    @Autowired
+    private CarService carService;
 
-	@GetMapping
-	public ResponseEntity<List<CarDTO>> listCars() throws AccessDeniedException, AuthenticationException {
-		List<CarDTO> listCars = carService.getAllCars();
-		return ResponseEntity.ok(listCars);
-	}
+    @GetMapping
+    @ApiOperation("Get a list of all cars")
+    public ResponseEntity<List<CarDTO>> listCars() throws AccessDeniedException, AuthenticationException {
+        List<CarDTO> listCars = carService.getAllCars();
+        return ResponseEntity.ok(listCars);
+    }
 
-	@PostMapping
-	public ResponseEntity<CarDTO> createCar(@Valid @RequestBody CarDTO carDTO) throws SignatureException {
-		Car carSave = carService.createCar(carDTO);
-		CarDTO carResponseDTO = new CarDTO(carSave);
-		return ResponseEntity.status(HttpStatus.CREATED).body(carResponseDTO);
+    @PostMapping
+    @ApiOperation("Create a new car")
+    public ResponseEntity<CarDTO> createCar(@Valid @RequestBody CarDTO carDTO) throws SignatureException {
+        Car carSave = carService.createCar(carDTO);
+        CarDTO carResponseDTO = new CarDTO(carSave);
+        return ResponseEntity.status(HttpStatus.CREATED).body(carResponseDTO);
+    }
 
-	}
+    @GetMapping("/{id}")
+    @ApiOperation("Get a car by ID")
+    public ResponseEntity<CarDTO> getCarById(@ApiParam("ID of the car") @PathVariable Long id) {
+        Car car = carService.getCarById(id);
+        CarDTO carDTO = new CarDTO(car);
+        return ResponseEntity.ok(carDTO);
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<CarDTO> getCarById(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    @ApiOperation("Delete a car by ID")
+    public ResponseEntity<Void> deleteCarById(@ApiParam("ID of the car") @PathVariable Long id) {
+        carService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 
-		Car car = carService.getCarById(id);
-		CarDTO carDTO = new CarDTO(car);
-
-		return ResponseEntity.ok(carDTO);
-
-	}
-
-	@DeleteMapping("/{id}")
-	public void deleteCarrById(@PathVariable Long id) {
-		carService.deleteById(id);
-	}
-
-	@PutMapping("/{id}")
-	public ResponseEntity<CarDTO> updateCarById(@PathVariable Long id, @RequestBody @Valid CarDTO carDTO) {
-		Car carSave = carService.updateCarById(id, carDTO);
-
-		CarDTO carResponseDTO = new CarDTO(carSave);
-
-		return ResponseEntity.ok(carResponseDTO);
-	}
-	 
-
+    @PutMapping("/{id}")
+    @ApiOperation("Update a car by ID")
+    public ResponseEntity<CarDTO> updateCarById(
+            @ApiParam("ID of the car") @PathVariable Long id,
+            @RequestBody @Valid CarDTO carDTO) {
+        Car carSave = carService.updateCarById(id, carDTO);
+        CarDTO carResponseDTO = new CarDTO(carSave);
+        return ResponseEntity.ok(carResponseDTO);
+    }
 }
