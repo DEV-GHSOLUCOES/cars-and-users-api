@@ -55,6 +55,8 @@ Este projeto utiliza o framework Spring Boot para criar a API RESTful e o Spring
 - Spring Security
 - H2 Database (em memória)
 - JSON Web Token (JWT)
+- Junit
+- Swagger
 
 ### Justificativas
 
@@ -65,6 +67,10 @@ Este projeto utiliza o framework Spring Boot para criar a API RESTful e o Spring
 - O Spring Security fornece recursos robustos de autenticação e autorização, e a autenticação JWT é usada para melhor segurança e escalabilidade.
 
 - O banco de dados H2 em memória é utilizado para facilitar o desenvolvimento e os testes, mas pode ser substituído por outros bancos de dados em ambientes de produção.
+  
+- O JUnit é um framework de testes unitários amplamente utilizado na comunidade de desenvolvimento de software. Ele fornece uma estrutura para escrever, organizar e executar testes automatizados em código Java.
+
+- O Swagger é uma estrutura (framework) de software que permite projetar, criar, documentar e consumir APIs de forma mais eficiente. Ele simplifica o processo de desenvolvimento de APIs RESTful ao fornecer uma maneira padronizada de descrever a interface da API, permitindo que desenvolvedores e equipes colaborem de maneira mais eficaz
 
 ### Executando o Projeto
 
@@ -75,8 +81,5 @@ Este projeto utiliza o framework Spring Boot para criar a API RESTful e o Spring
 
 A API estará disponível em http://localhost:8080.
 
-### Testes
-
-Para executar os testes unitários, utilize o comando: `mvn test`
 
 
