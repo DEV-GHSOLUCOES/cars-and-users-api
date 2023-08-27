@@ -57,7 +57,7 @@ Este projeto utiliza o framework Spring Boot para criar a API RESTful e o Spring
 - JSON Web Token (JWT)
 - Junit
 - Swagger
-
+- RAILWAY 
 ### Justificativas
 
 - O uso do Spring Boot simplifica o desenvolvimento de aplicações Java, fornecendo configurações padrão e um ambiente de execução incorporado.
@@ -71,15 +71,14 @@ Este projeto utiliza o framework Spring Boot para criar a API RESTful e o Spring
 - O JUnit é um framework de testes unitários amplamente utilizado na comunidade de desenvolvimento de software. Ele fornece uma estrutura para escrever, organizar e executar testes automatizados em código Java.
 
 - O Swagger é uma estrutura (framework) de software que permite projetar, criar, documentar e consumir APIs de forma mais eficiente. Ele simplifica o processo de desenvolvimento de APIs RESTful ao fornecer uma maneira padronizada de descrever a interface da API, permitindo que desenvolvedores e equipes colaborem de maneira mais eficaz
+  
+- O Railway é uma plataforma semelhante ao heroku. A escolha dele foi pelo motivo do heroku nao ser mais gratuito
 
-### Executando o Projeto
+### Para testar bastar baixar o postaman, e realizar as requisicoes para as URIs
 
-1. Clone o repositório: `git clone https://github.com/DEV-GHSOLUCOES/car-dealer-api.git`
-2. Navegue para o diretório do projeto: `cd nome-do-projeto`
-3. Compile o projeto: `mvn clean install`
-4. Execute o projeto: `java -jar target/nome-do-arquivo.jar`
+###  A API estará disponível: https://cars-and-users-api-production.up.railway.app/api/users
 
-A API estará disponível em http://localhost:8080.
+### Sawgger : https://cars-and-users-api-production.up.railway.app/swagger-ui/index.html
 
 
 
