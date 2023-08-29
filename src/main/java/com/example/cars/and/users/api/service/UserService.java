@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.cars.and.users.api.dto.CarDTO;
 import com.example.cars.and.users.api.dto.UserDTO;
 import com.example.cars.and.users.api.exceptions.EmailAlreadyExistsException;
 import com.example.cars.and.users.api.exceptions.LoginAlreadyExistsException;
@@ -26,6 +27,11 @@ public class UserService {
 
 	@Autowired
 	private CarRepository carRepository;
+	
+	@Autowired
+	private CarService carService;
+	
+	
 
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
@@ -130,7 +136,19 @@ public class UserService {
 		userModel.setPassword(userDTO.getPassword());
 		
 		userModel.setPhone(userDTO.getPhone());
-		userModel.setCars(userDTO.getCars());
+		
+		if (!userDTO.getCars().isEmpty()) {
+			List<Car> list = new ArrayList<Car>();
+			for (Car car : userDTO.getCars()) {
+				Car carTemp = new Car();
+				carTemp =  car;
+				carTemp.setUser(userModel);
+				list.add(carTemp);
+			}
+			
+			userModel.setCars(list);
+		}
+		
 
 		// Verifica se o email já existe
 		userModel.setEmail(userDTO.getEmail());
@@ -149,4 +167,5 @@ public class UserService {
 		return userModel;
 	}
 
+	
 }

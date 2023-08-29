@@ -37,7 +37,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/h2-console/**").permitAll() // Permitir acesso ao console H2
 				.antMatchers("/api/signin").permitAll() // Permitir acesso à rota de signin
 				.antMatchers("/api/users").permitAll() // Permitir acesso à rota de listagem de usuários
-				.antMatchers("/api/users/create").permitAll()
 				.antMatchers("/api/users/{id}").permitAll() // Permitir acesso à rota de busca de usuário pelo ID
 				.antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // Permitir acesso ao Swagger UI
 				

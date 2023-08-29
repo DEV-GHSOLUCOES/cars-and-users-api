@@ -39,7 +39,7 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     @ApiOperation("Create a new user")
     public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
         User userSave = userService.createUser(userDTO);
@@ -47,7 +47,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDTO);
     }
     
-    @GetMapping("/getUserById/{id}")
+    @GetMapping("/{id}")
     @ApiOperation("Get a user by ID")
     public ResponseEntity<UserDTO> getUserById(@ApiParam("ID of the user") @PathVariable Long id) {
         User user = userService.getUserById(id);
@@ -55,14 +55,14 @@ public class UserController {
         return ResponseEntity.ok(userDTO);
     }
     
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @ApiOperation("Delete a user by ID")
     public ResponseEntity<?> deleteUserById(@ApiParam("ID of the user") @PathVariable Long id) {
         userService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
     
-    @PutMapping("updateUserById/{id}")
+    @PutMapping("/{id}")
     @ApiOperation("Update a user by ID")
     public ResponseEntity<UserDTO> updateUserById(
             @ApiParam("ID of the user") @PathVariable Long id,

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Car {
 
+	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -69,11 +70,11 @@ public class Car {
 		this.color = color;
 	}
 
-	public User getUsuario() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUsuario(User user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 

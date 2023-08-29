@@ -3,6 +3,7 @@ package com.example.cars.and.users.api.model;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.UniqueConstraint;
@@ -54,9 +54,19 @@ public class User implements UserDetails {
 
 	private List<Role> roles;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Car> cars;
+	
+	
+	private String token = "";
+	
+	public String getToken() {
+		return token;
+	}
+	
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 	public User(UserDTO userDTO) {
 		// TODO Auto-generated constructor stub

@@ -57,7 +57,7 @@ public class CarService {
 			}
 
 			carModel.setModel(carDTO.getModel());
-			carModel.setUsuario(carDTO.getUser());
+			//carModel.getUsuario().setId(carDTO.getUser().getId());;
 			carModel.setYear(Integer.parseInt(carDTO.getYear()));
 		}
 		return this.carRepository.save(carModel);
@@ -73,7 +73,7 @@ public class CarService {
 
 	public boolean canDeleteCar(Long carId) {
 		Car car = getCarById(carId);
-		User user = car.getUsuario();
+		User user = car.getUser();
 
 		return user != null ? true : false;
 	}
@@ -100,5 +100,28 @@ public class CarService {
 		return carRepository.save(carSave);
 		
 	}
+	
+	public List<Car> convertCarDTOsToCars(List<CarDTO> carDTOs) {
+	    List<Car> cars = new ArrayList<>();
+	    
+	    for (CarDTO carDTO : carDTOs) {
+	        Car car = convertCarDTOToCar(carDTO);
+	        cars.add(car);
+	    }
+	    
+	    return cars;
+	}
 
+	public Car convertCarDTOToCar(CarDTO carDTO) {
+	    Car car = new Car();
+	    
+	    // Set properties from CarDTO to Car
+	    car.setYear(Integer.valueOf(carDTO.getYear()));
+	    car.setLicensePlate(carDTO.getLicensePlate());
+	    car.setModel(carDTO.getModel());
+	    car.setColor(carDTO.getColor());
+
+	    return car;
+	}
+	
 }

@@ -70,7 +70,7 @@ public class UserControllerTest {
 		user.setCars(new ArrayList<Car>());
 		
 		ResultActions returnApi = mockMvc
-									.perform(MockMvcRequestBuilders.post("/api/users/create")
+									.perform(MockMvcRequestBuilders.post("/api/users")
 									.content(objectMapper.writeValueAsString(user))
 									.accept(MediaType.APPLICATION_JSON)
 									.contentType(MediaType.APPLICATION_JSON));
@@ -103,7 +103,7 @@ public class UserControllerTest {
 		user.setCars(new ArrayList<Car>());
 		
 		ResultActions returnApi = mockMvc
-									.perform(MockMvcRequestBuilders.post("/api/users/create")
+									.perform(MockMvcRequestBuilders.post("/api/users")
 									.content(objectMapper.writeValueAsString(user))
 									.accept(MediaType.APPLICATION_JSON)
 									.contentType(MediaType.APPLICATION_JSON));
@@ -141,7 +141,7 @@ public class UserControllerTest {
 		
 		
 		ResultActions returnApi = mockMvc
-									.perform(MockMvcRequestBuilders.delete("/api/users/delete/" + user.getId())
+									.perform(MockMvcRequestBuilders.delete("/api/users/" + user.getId())
 									.content(objectMapper.writeValueAsString(userDTO))
 									.accept(MediaType.APPLICATION_JSON)
 									.contentType(MediaType.APPLICATION_JSON));
@@ -176,7 +176,7 @@ public class UserControllerTest {
 		
 		
 		ResultActions returnApi = mockMvc
-									.perform(MockMvcRequestBuilders.get("/api/users/getUserById/" + user.getId())
+									.perform(MockMvcRequestBuilders.get("/api/users/" + user.getId())
 									.content(objectMapper.writeValueAsString(userDTO))
 									.accept(MediaType.APPLICATION_JSON)
 									.contentType(MediaType.APPLICATION_JSON));
@@ -222,16 +222,16 @@ public class UserControllerTest {
 		System.out.println("RETORNO DA API " + returnApi.andReturn().getResponse().getContentAsString());
 		System.out.println("STATUS " + returnApi.andReturn().getResponse().getStatus());
 		
-		
-		assertEquals(200, returnApi.andReturn().getResponse().getStatus());
-		
-		List<User> list =  objectMapper.readValue(returnApi.andReturn().getResponse().getContentAsString(),
+		List<User> listReturnApi =  objectMapper.readValue(returnApi.andReturn().getResponse().getContentAsString(),
 				new TypeReference<List<User>>() {});
 		
-		assertEquals(7, list.size() -1);
-		assertEquals(user.getFirstName(), list.get(0).getFirstName());
+		List<User> listDB  =  userRepository.findAll();
 		
-		//userRepository.deleteById(Long.valueOf(user.getId()));
+		assertEquals(200, returnApi.andReturn().getResponse().getStatus());
+		assertEquals(listDB.size(), listReturnApi.size());
+		assertEquals(user.getFirstName(), listReturnApi.get(0).getFirstName());
+		
+		
 		
 	}
 	

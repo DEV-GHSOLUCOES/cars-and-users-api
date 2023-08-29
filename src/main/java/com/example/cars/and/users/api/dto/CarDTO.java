@@ -5,11 +5,12 @@ import javax.validation.constraints.NotNull;
 
 import com.example.cars.and.users.api.model.Car;
 import com.example.cars.and.users.api.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class CarDTO {
 	
 	
-	
+	@JsonIgnore
     private String id;
     
     @NotNull(message = "Missing fields!")
@@ -29,8 +30,9 @@ public class CarDTO {
     private String color;
     
     
-    
-    private User user;
+	/*
+	 * @JsonIgnore private User user;
+	 */
     
     public CarDTO() {
 		
@@ -43,7 +45,7 @@ public class CarDTO {
 		this.licensePlate = car.getLicensePlate();
 		this.model = car.getModel();
 		this.color = car.getColor();
-		this.user = car.getUsuario();
+		//this.user = car.getUsuario();
 	}
 
 	public String getId() {
@@ -86,14 +88,11 @@ public class CarDTO {
 		this.color = color;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-    
+	/*
+	 * public User getUser() { return user; }
+	 * 
+	 * public void setUser(User user) { this.user = user; }
+	 */
    
     
 	

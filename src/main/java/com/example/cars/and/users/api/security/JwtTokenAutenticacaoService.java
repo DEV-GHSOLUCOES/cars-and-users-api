@@ -73,23 +73,27 @@ public class JwtTokenAutenticacaoService {
 
 	    if (token != null) {
 	        try {
+	        	
+	        	String tokenClean = token.replace(TOKEN_PREFIX, "").trim();
+	        	
 	            Claims claims = Jwts.parser()
 	                    .setSigningKey(SECRET_KEY)
-	                    .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+	                    .parseClaimsJws(tokenClean)
 	                    .getBody();
 
 	            String user = claims.getSubject();
 	            if (user != null) {
 	                User usuario = ApplicationContextLoad.getApplicationContext()
-	                        .getBean(UserRepository.class)
-	                        .findByUserLogin(user);
+	                        .getBean(UserRepository.class).findByUserLogin(user);
 
 	                if (usuario != null) {
-	                    return new UsernamePasswordAuthenticationToken(
-	                            usuario.getLogin(),
-	                            usuario.getPassword(),
-	                            usuario.getAuthorities()
-	                    );
+	                	if (tokenClean.equalsIgnoreCase(usuario.getToken())) {
+							
+	                		return new UsernamePasswordAuthenticationToken(
+	                				usuario.getLogin(),
+	                				usuario.getPassword(),
+	                				usuario.getAuthorities());
+						}
 	                }
 	            }
 	        } catch (SignatureException ex) {
