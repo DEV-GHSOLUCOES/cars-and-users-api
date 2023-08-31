@@ -2,10 +2,6 @@ package com.example.cars.and.users.api.dto;
 
 import java.util.List;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 import com.example.cars.and.users.api.model.Car;
 import com.example.cars.and.users.api.model.User;
 
@@ -13,35 +9,16 @@ public class UserDTO {
 
 	private String id;
 
-	@NotNull(message = "Missing fields!")
-	@NotBlank(message = "Invalid fields!")
 	private String firstName;
-
-	@NotNull(message = "Missing fields!")
-	@NotBlank(message = "Invalid fields!")
 
 	private String lastName;
 
-	@NotNull
 	private String email;
-
-	@NotNull(message = "Missing fields!")
-	@NotBlank(message = "Invalid fields!")
 
 	private String birthday;
 
-	@NotNull(message = "Missing fields!")
-	@NotBlank(message = "Invalid fields!")
-
 	private String login;
 
-	@NotNull(message = "Missing fields!")
-	@NotBlank(message = "Invalid fields!")
-
-	private String password;
-
-	@NotNull(message = "Missing fields!")
-	@NotBlank(message = "Invalid fields!")
 	private String phone;
 
 	private List<Car> cars;
@@ -61,9 +38,9 @@ public class UserDTO {
 		this.email = user.getEmail();
 		this.birthday = user.getBirthday();
 		this.login = user.getLogin();
-		this.password = user.getPassword();
 		this.phone = user.getPhone();
 		this.cars = user.getCars();
+
 	}
 
 	public void setId(String id) {
@@ -110,14 +87,6 @@ public class UserDTO {
 		this.login = login;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public String getPhone() {
 		return phone;
 	}
@@ -132,11 +101,6 @@ public class UserDTO {
 
 	public void setCars(List<Car> cars) {
 		this.cars = cars;
-	}
-
-	public UserDTO updateUserById(Long id2, @Valid UserDTO userDTO) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

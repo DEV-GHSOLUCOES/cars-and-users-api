@@ -6,10 +6,8 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.cars.and.users.api.dto.CarDTO;
 import com.example.cars.and.users.api.dto.UserDTO;
 import com.example.cars.and.users.api.exceptions.EmailAlreadyExistsException;
 import com.example.cars.and.users.api.exceptions.LoginAlreadyExistsException;
@@ -27,11 +25,6 @@ public class UserService {
 
 	@Autowired
 	private CarRepository carRepository;
-	
-	@Autowired
-	private CarService carService;
-	
-	
 
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
@@ -52,6 +45,7 @@ public class UserService {
 			userDTO.setCars(user.getCars());
 			userDTO.setLogin(user.getLogin());
 			userDTO.setPhone(user.getPhone());
+			// userDTO.setToken(user.getToken());
 
 			userDTOs.add(userDTO);
 		}
@@ -59,11 +53,32 @@ public class UserService {
 		return userDTOs;
 	}
 
-	public User createUser(UserDTO userDTO) throws EmailAlreadyExistsException, LoginAlreadyExistsException {
-		User userModel = new User();
-		userModel = this.userDtoParseUserModel(userDTO);
-		
-		return this.userRepository.save(userModel);
+	public User createUser(User user) throws EmailAlreadyExistsException, LoginAlreadyExistsException {
+
+		if (user != null) {
+
+			if (!user.getCars().isEmpty()) {
+				List<Car> list = new ArrayList<Car>();
+				for (Car car : user.getCars()) {
+
+					car.setUser(user);
+					list.add(car);
+				}
+
+				user.setCars(list);
+			}
+
+			if (userRepository.existsByEmail(user.getEmail())) {
+				throw new EmailAlreadyExistsException();
+			}
+
+			if (userRepository.existsByLogin(user.getLogin())) {
+				throw new LoginAlreadyExistsException();
+			}
+
+		}
+
+		return this.userRepository.save(user);
 	}
 
 	public User getUserById(Long id) throws UserNotFoundException {
@@ -80,92 +95,42 @@ public class UserService {
 	}
 
 	public void deleteById(Long id) throws UserNotFoundException {
-		Optional<User> user  =  this.userRepository.findById(id);
+		Optional<User> user = this.userRepository.findById(id);
 		if (user.isPresent()) {
-			
-			 User userOptional = user.get();
-	            List<Car> cars = userOptional.getCars();
-	            
-	            // Delete cars associated with the user
-	            carRepository.deleteAll(cars);
-	            
-	            // Delete the user
-	            userRepository.deleteById(id);
-		}
-		else {
+
+			User userOptional = user.get();
+			List<Car> cars = userOptional.getCars();
+
+			// Delete cars associated with the user
+			carRepository.deleteAll(cars);
+
+			// Delete the user
+			userRepository.deleteById(id);
+		} else {
 			throw new UserNotFoundException();
 		}
-		
-		
 
 	}
 
-	
-	
-	public User updateUserById(Long id, UserDTO userDTO) throws EmailAlreadyExistsException, LoginAlreadyExistsException {
+	public User updateUserById(Long id, User user) throws EmailAlreadyExistsException, LoginAlreadyExistsException {
 
 		User userSave = this.getUserById(id);
-		
-		// Verifica se o email já existe
-		
-		if (userRepository.existsByEmail(userDTO.getEmail())) {
+
+		// Verifica se o email já existe para outro usuário
+		User existingUserWithEmail = userRepository.findByEmail(user.getEmail());
+		if (existingUserWithEmail != null && !existingUserWithEmail.getId().equals(id)) {
 			throw new EmailAlreadyExistsException();
 		}
 
-		// Verifica se o login já existe
-		
-		if (userRepository.existsByLogin(userDTO.getLogin())) {
+		// Verifica se o login já existe par outro usuario
+		User existingUserWithLogin = userRepository.findByLogin(user.getLogin());
+		if (existingUserWithLogin != null && !existingUserWithLogin.getId().equals(id)) {
 			throw new LoginAlreadyExistsException();
 		}
 
-		BeanUtils.copyProperties(userDTO, userSave, "id");
+		BeanUtils.copyProperties(user, userSave, "id");
 
 		return userRepository.save(userSave);
 	}
-	
-	
-	public User userDtoParseUserModel(UserDTO userDTO) throws EmailAlreadyExistsException, LoginAlreadyExistsException {
-		User userModel = new User();
-		
-		if (userDTO != null) {		
-		userModel.setFirstName(userDTO.getFirstName());
-		userModel.setLastName(userDTO.getLastName());
-		userModel.setBirthday((userDTO.getBirthday()));
-		
-		//userModel.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-		userModel.setPassword(userDTO.getPassword());
-		
-		userModel.setPhone(userDTO.getPhone());
-		
-		if (!userDTO.getCars().isEmpty()) {
-			List<Car> list = new ArrayList<Car>();
-			for (Car car : userDTO.getCars()) {
-				Car carTemp = new Car();
-				carTemp =  car;
-				carTemp.setUser(userModel);
-				list.add(carTemp);
-			}
-			
-			userModel.setCars(list);
-		}
-		
 
-		// Verifica se o email já existe
-		userModel.setEmail(userDTO.getEmail());
-		if (userRepository.existsByEmail(userDTO.getEmail())) {
-			throw new EmailAlreadyExistsException();
-		}
-
-		// Verifica se o login já existe
-		userModel.setLogin(userDTO.getLogin());
-		if (userRepository.existsByLogin(userDTO.getLogin())) {
-			throw new LoginAlreadyExistsException();
-		}
-
-	}
-		
-		return userModel;
-	}
-
-	
 }

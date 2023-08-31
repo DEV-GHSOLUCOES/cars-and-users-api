@@ -3,6 +3,7 @@ package com.example.cars.and.users.api.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.example.cars.and.users.api.service.UserDetailsServiceImpl;
 
 /*Mapeia a URL, enderecos, autoriza ou bloqueia os acessos*/
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -41,6 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // Permitir acesso ao Swagger UI
 				
 				.antMatchers("/index").permitAll()
+				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 				
 				.antMatchers("/api/me").authenticated()  // Exige autenticação para a rota /api/me
 		        .antMatchers("/api/cars").authenticated()  // Exige autenticação para a rota /api/cars
@@ -71,6 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		super.configure(auth);
 	}
+	
 	
 	@Bean
     public PasswordEncoder passwordEncoder() {

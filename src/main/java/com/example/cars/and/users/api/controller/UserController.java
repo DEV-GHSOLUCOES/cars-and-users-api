@@ -41,8 +41,8 @@ public class UserController {
 
     @PostMapping
     @ApiOperation("Create a new user")
-    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
-        User userSave = userService.createUser(userDTO);
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody User user) {
+        User userSave = userService.createUser(user);
         UserDTO userResponseDTO = new UserDTO(userSave);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDTO);
     }
@@ -62,13 +62,12 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
     
-    @PutMapping("/{id}")
-    @ApiOperation("Update a user by ID")
-    public ResponseEntity<UserDTO> updateUserById(
-            @ApiParam("ID of the user") @PathVariable Long id,
-            @RequestBody @Valid UserDTO userDTO) {
-        User userSave = userService.updateUserById(id, userDTO);
-        UserDTO userResponseDTO = new UserDTO(userSave);
-        return ResponseEntity.ok(userResponseDTO);
-    }
+	@PutMapping("/{id}")
+	@ApiOperation("Update a user by ID")
+	public ResponseEntity<UserDTO> updateUserById(@ApiParam("ID of the user") @PathVariable Long id,
+			@RequestBody @Valid User user) {
+		User userSave = userService.updateUserById(id, user);
+		UserDTO userResponseDTO = new UserDTO(userSave);
+		return ResponseEntity.ok(userResponseDTO);
+	}
 }

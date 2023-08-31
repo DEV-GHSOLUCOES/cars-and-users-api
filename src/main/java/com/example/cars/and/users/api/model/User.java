@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,18 +36,33 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull(message = "Missing fields!")
+	@NotBlank(message = "Invalid fields!")
 	private String firstName;
 
+	@NotNull(message = "Missing fields!")
+	@NotBlank(message = "Invalid fields!")
 	private String lastName;
 
+	@NotNull
 	private String email;
 
+	@NotNull(message = "Missing fields!")
+	@NotBlank(message = "Invalid fields!")
 	private String birthday;
 
+	
+	@NotNull(message = "Missing fields!")
+	@NotBlank(message = "Invalid fields!")
 	private String login;
 
+	
+	@NotNull(message = "Missing fields!")
+	@NotBlank(message = "Invalid fields!")
 	private String password;
 
+	@NotNull(message = "Missing fields!")
+	@NotBlank(message = "Invalid fields!")
 	private String phone;
 
 	@OneToMany(fetch = FetchType.EAGER)

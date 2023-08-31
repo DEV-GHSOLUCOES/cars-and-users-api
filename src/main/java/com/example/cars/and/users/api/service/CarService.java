@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +13,6 @@ import com.example.cars.and.users.api.exceptions.LicensePlateAlreadyExistsExecep
 import com.example.cars.and.users.api.model.Car;
 import com.example.cars.and.users.api.model.User;
 import com.example.cars.and.users.api.repository.CarRepository;
-import com.example.cars.and.users.api.repository.UserRepository;
 
 @Service
 public class CarService {
@@ -99,29 +96,6 @@ public class CarService {
 
 		return carRepository.save(carSave);
 		
-	}
-	
-	public List<Car> convertCarDTOsToCars(List<CarDTO> carDTOs) {
-	    List<Car> cars = new ArrayList<>();
-	    
-	    for (CarDTO carDTO : carDTOs) {
-	        Car car = convertCarDTOToCar(carDTO);
-	        cars.add(car);
-	    }
-	    
-	    return cars;
-	}
-
-	public Car convertCarDTOToCar(CarDTO carDTO) {
-	    Car car = new Car();
-	    
-	    // Set properties from CarDTO to Car
-	    car.setYear(Integer.valueOf(carDTO.getYear()));
-	    car.setLicensePlate(carDTO.getLicensePlate());
-	    car.setModel(carDTO.getModel());
-	    car.setColor(carDTO.getColor());
-
-	    return car;
 	}
 	
 }
