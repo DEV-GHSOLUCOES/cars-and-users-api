@@ -1,6 +1,6 @@
 
 INSERT INTO user (first_name, last_name, email, birthday, login, password, phone) 
-VALUES ('GUSTAVO', 'SANTOS', 'gustavo@example.com', '1990-01-15', 'johndoe', 'password123', '123-456-7890');
+VALUES ('GUSTAVO', 'SANTOS', 'gustavo@example.com', '1990-01-15', 'pitang', 'pitang@123', '123-456-7890');
        
 INSERT INTO user (first_name, last_name, email, birthday, login, password, phone) 
 VALUES ('JOAO', 'SILVA', 'joao@example.com', '1985-05-20', 'janesmith', 'letmein', '987-654-3210');

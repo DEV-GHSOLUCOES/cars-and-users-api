@@ -28,7 +28,7 @@ public class JwtTokenAutenticacaoService {
 	
 	
 	/*Tempo de validade do token */
-	private static final long EXPIRATION_TIME = 300000 ;
+	private static final long EXPIRATION_TIME = 86400000; //300000 ;
     
 	/*Uma senha unica para compor a autenticacao*/
 	private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
