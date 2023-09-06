@@ -72,13 +72,13 @@ Este projeto utiliza o framework Spring Boot para criar a API RESTful e o Spring
 
 - O Swagger é uma estrutura (framework) de software que permite projetar, criar, documentar e consumir APIs de forma mais eficiente. Ele simplifica o processo de desenvolvimento de APIs RESTful ao fornecer uma maneira padronizada de descrever a interface da API, permitindo que desenvolvedores e equipes colaborem de maneira mais eficaz
   
-- O Railway é uma plataforma semelhante ao heroku. A escolha dele foi pelo motivo do heroku nao ser mais gratuito
+- O Railway é uma plataforma semelhante ao heroku. A escolha dele foi pelo motivo do heroku nao ser mais gratuito, houve problemas com a AWS.
 
-### Para testar bastar baixar o postaman, e realizar as requisicoes para as URIs
+### Para testar localmente a API,  bastar baixar ter uma ferramenta como postman, e realizar as requisicoes para as URIs  
 
-###  A API estará disponível: https://cars-and-users-api-production.up.railway.app/api/users
+###  A API estará disponível: https://cars-and-users-api-production.up.railway.app/cars-and-users-api/api/users
 
-### Sawgger : https://cars-and-users-api-production.up.railway.app/swagger-ui/index.html
+### Sawgger : https://cars-and-users-api-production.up.railway.app/cars-and-users-api/swagger-ui/index.html#/car-controller
 
 
 
