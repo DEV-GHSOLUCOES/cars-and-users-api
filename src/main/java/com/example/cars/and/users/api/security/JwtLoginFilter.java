@@ -41,13 +41,6 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 		/* Esta pegando o token para validar */
 		User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
 
-		/*
-		 * if (!isValidCredentials(user)) {
-		 * response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		 * response.getWriter().write("{\"error\": \"Invalid login or password\"}");
-		 * 
-		 * }
-		 */
 		
 		/* Retorna o user login, senha e acessos */
 		return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(user.getLogin(), user.getPassword()));
@@ -70,7 +63,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 	public boolean isValidCredentials(User userLogin) {
 
 		User user = ApplicationContextLoad.getApplicationContext().getBean(UserRepository.class)
-				.findByPassword(userLogin.getPassword());
+				.findFirstByPassword(userLogin.getPassword());
 
 		if (user != null) {
 			if (user.getPassword().equalsIgnoreCase(userLogin.getPassword())

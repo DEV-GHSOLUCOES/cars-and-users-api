@@ -31,7 +31,7 @@ public class JwtTokenAutenticacaoService {
 	private static final long EXPIRATION_TIME = 86400000; //300000 ;
     
 	/*Uma senha unica para compor a autenticacao*/
-	private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+	public static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 	
 	/*Prefixo  padrao de token*/
 	private static final String TOKEN_PREFIX = "Bearer";

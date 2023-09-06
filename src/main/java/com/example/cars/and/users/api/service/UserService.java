@@ -57,15 +57,18 @@ public class UserService {
 
 		if (user != null) {
 
-			if (!user.getCars().isEmpty()) {
-				List<Car> list = new ArrayList<Car>();
-				for (Car car : user.getCars()) {
-
-					car.setUser(user);
-					list.add(car);
+			if (user.getCars() != null) {
+				if (!user.getCars().isEmpty()) {
+					List<Car> list = new ArrayList<Car>();
+					for (Car car : user.getCars()) {
+						
+						car.setUser(user);
+						list.add(car);
+					}
+					
+					user.setCars(list);
 				}
-
-				user.setCars(list);
+				
 			}
 
 			if (userRepository.existsByEmail(user.getEmail())) {
@@ -117,13 +120,13 @@ public class UserService {
 		User userSave = this.getUserById(id);
 
 		// Verifica se o email já existe para outro usuário
-		User existingUserWithEmail = userRepository.findByEmail(user.getEmail());
+		User existingUserWithEmail = userRepository.findFirstByEmail(user.getEmail());
 		if (existingUserWithEmail != null && !existingUserWithEmail.getId().equals(id)) {
 			throw new EmailAlreadyExistsException();
 		}
 
 		// Verifica se o login já existe par outro usuario
-		User existingUserWithLogin = userRepository.findByLogin(user.getLogin());
+		User existingUserWithLogin = userRepository.findFirstByLogin(user.getLogin());
 		if (existingUserWithLogin != null && !existingUserWithLogin.getId().equals(id)) {
 			throw new LoginAlreadyExistsException();
 		}

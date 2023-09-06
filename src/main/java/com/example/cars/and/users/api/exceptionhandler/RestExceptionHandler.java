@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import javax.servlet.ServletException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -26,6 +28,8 @@ import com.example.cars.and.users.api.exceptions.LicensePlateAlreadyExistsExecep
 import com.example.cars.and.users.api.exceptions.LoginAlreadyExistsException;
 import com.example.cars.and.users.api.exceptions.UserNotFoundException;
 
+import io.jsonwebtoken.io.IOException;
+
 
 @RestControllerAdvice
 @ControllerAdvice
@@ -46,6 +50,24 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, erros, headers, HttpStatus.BAD_REQUEST, request);
 	}
 
+	
+	
+	/*
+	 * @ExceptionHandler({IOException.class, ServletException.class }) public
+	 * ResponseEntity<Object> handleIOException( Exception ex, WebRequest request) {
+	 * String menssagemUsuario = messageSource.getMessage("login.invalid", null,
+	 * LocaleContextHolder.getLocale()); String menssagemDesenvolvedor =
+	 * HttpStatus.UNAUTHORIZED.toString(); List<ErrorResponse> erros =
+	 * Arrays.asList(new ErrorResponse(menssagemUsuario, menssagemDesenvolvedor));
+	 * 
+	 * return new ReshandleExceptionInternal(ex, erros, new HttpHeaders(),
+	 * HttpStatus.UNAUTHORIZED, request);
+	 * 
+	 * 
+	 * 
+	 * }
+	 */
+	
 	@ExceptionHandler({EmailAlreadyExistsException.class})
 	public ResponseEntity<Object> handleEmailAlreadyExistsException( EmailAlreadyExistsException ex, WebRequest request) {
 		String menssagemUsuario = messageSource.getMessage("email.exists", null, LocaleContextHolder.getLocale());
@@ -93,14 +115,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	}	
 	
 		
-	@ExceptionHandler({IllegalStateException.class})
-	public ResponseEntity<Object> handleIllegalStateException( IllegalStateException ex, WebRequest request) {
-		String menssagemUsuario = messageSource.getMessage("conflict", null, LocaleContextHolder.getLocale());
-		String menssagemDesenvolvedor = HttpStatus.CONFLICT.toString();
-		List<ErrorResponse> erros = Arrays.asList(new ErrorResponse(menssagemUsuario, menssagemDesenvolvedor));
-		
-		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.CONFLICT, request);
-	}
+	/*
+	 * @ExceptionHandler({IllegalStateException.class}) public
+	 * ResponseEntity<Object> handleIllegalStateException( IllegalStateException ex,
+	 * WebRequest request) { String menssagemUsuario =
+	 * messageSource.getMessage("conflict", null, LocaleContextHolder.getLocale());
+	 * String menssagemDesenvolvedor = HttpStatus.CONFLICT.toString();
+	 * List<ErrorResponse> erros = Arrays.asList(new ErrorResponse(menssagemUsuario,
+	 * menssagemDesenvolvedor));
+	 * 
+	 * return handleExceptionInternal(ex, erros, new HttpHeaders(),
+	 * HttpStatus.CONFLICT, request); }
+	 */
 	
 	@ExceptionHandler({UserNotFoundException.class})
 	public ResponseEntity<Object> handleUserNotFoundException( UserNotFoundException ex, WebRequest request) {

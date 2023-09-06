@@ -1,5 +1,6 @@
 package com.example.cars.and.users.api.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,8 +20,7 @@ public class Car {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull(message = "Missing fields!")
-	@NotBlank(message = "Invalid fields!")
+	
 	private int year;
 
 	@NotNull(message = "Missing fields!")
@@ -36,7 +36,7 @@ public class Car {
 	private String color;
 
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private User user;
 

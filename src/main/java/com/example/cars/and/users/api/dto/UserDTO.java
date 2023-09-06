@@ -18,6 +18,8 @@ public class UserDTO {
 	private String birthday;
 
 	private String login;
+	
+	private String password;
 
 	private String phone;
 
@@ -38,6 +40,7 @@ public class UserDTO {
 		this.email = user.getEmail();
 		this.birthday = user.getBirthday();
 		this.login = user.getLogin();
+		this.password = user.getPassword();
 		this.phone = user.getPhone();
 		this.cars = user.getCars();
 
@@ -87,6 +90,15 @@ public class UserDTO {
 		this.login = login;
 	}
 
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 	public String getPhone() {
 		return phone;
 	}

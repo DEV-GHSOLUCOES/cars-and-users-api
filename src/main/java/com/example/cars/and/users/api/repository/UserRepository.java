@@ -3,21 +3,23 @@ package com.example.cars.and.users.api.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.cars.and.users.api.model.User;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
 	public boolean existsByEmail(String email);
 
 	public boolean existsByLogin(String login);
 
-	public User findByEmail(String email);
+	public User findFirstByEmail(String email);
 
-	public User findByLogin(String login);
+	public User findFirstByLogin(String login);
 	
-	public User findByPassword(String password);
+	public User findFirstByPassword(String password);
 	
 
 	@Query("select u from User u where u.login = ?1")

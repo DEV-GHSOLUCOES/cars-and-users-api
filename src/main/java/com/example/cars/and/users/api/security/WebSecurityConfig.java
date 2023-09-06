@@ -52,7 +52,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 				.logout().logoutSuccessUrl("/index")
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.and().headers().frameOptions().sameOrigin()
+				.and().
+				headers()
+				.frameOptions()
+				.sameOrigin()
 
 				// Filtar requisicoes de login para autenticacao
 				.and()

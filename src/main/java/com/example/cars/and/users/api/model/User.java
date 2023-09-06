@@ -44,7 +44,7 @@ public class User implements UserDetails {
 	@NotBlank(message = "Invalid fields!")
 	private String lastName;
 
-	@NotNull
+	@NotNull(message = "Missing fields!")
 	private String email;
 
 	@NotNull(message = "Missing fields!")

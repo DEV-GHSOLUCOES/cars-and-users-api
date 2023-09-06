@@ -67,7 +67,7 @@ public class UserController {
 	@PutMapping("/{id}")
 	@ApiOperation("Update a user by ID")
 	public ResponseEntity<UserDTO> updateUserById(@ApiParam("ID of the user") @PathVariable Long id,
-			@RequestBody @Valid User user) {
+			@RequestBody  User user) {
 		User userSave = userService.updateUserById(id, user);
 		UserDTO userResponseDTO = new UserDTO(userSave);
 		return ResponseEntity.ok(userResponseDTO);

@@ -16,8 +16,8 @@ public class CarDTO {
 
 	private String color;
 
-	@JsonIgnore
-	private User user;
+	
+	//private User user;
 
 	public CarDTO() {
 
@@ -29,7 +29,7 @@ public class CarDTO {
 		this.licensePlate = car.getLicensePlate();
 		this.model = car.getModel();
 		this.color = car.getColor();
-		this.user = car.getUser();
+		//this.user = car.getUser();
 	}
 
 	public String getId() {
@@ -72,6 +72,7 @@ public class CarDTO {
 		this.color = color;
 	}
 
+	
 	/*
 	 * public User getUser() { return user; }
 	 * 
