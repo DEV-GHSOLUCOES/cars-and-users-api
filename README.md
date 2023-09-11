@@ -74,7 +74,7 @@ Este projeto utiliza o framework Spring Boot para criar a API RESTful e o Spring
   
 - O Railway é uma plataforma semelhante ao heroku. A escolha dele foi pelo motivo do heroku nao ser mais gratuito, houve problemas com a AWS.
 
-### Para testar localmente a API,  bastar baixar ter uma ferramenta como postman, e realizar as requisicoes para as URIs  
+### Para testar localmente a API,  bastar  ter uma ferramenta como postman, e realizar as requisicoes para as URIs, para as URIs que precisma de autenticacao, é preciso inserir o token no header  
 
 ###  A API estará disponível: https://cars-and-users-api-production.up.railway.app/cars-and-users-api/api/users
 
